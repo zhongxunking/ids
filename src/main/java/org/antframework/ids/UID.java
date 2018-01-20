@@ -66,7 +66,7 @@ public class UID {
         return "2" + String.format("%0" + (ID_LENGTH - 1) + "d", id);
     }
 
-    // 从服务端获取id
+    // 从服务端获取id（格式：yyyyMMddHH+10位数的id）
     private static String fromServer() {
         Id id = ID_CONTEXT.getAcquirer().getId();
         if (id == null) {
@@ -79,7 +79,7 @@ public class UID {
         return builder.toString();
     }
 
-    // 从本地获取id
+    // 从本地获取id（格式：yyyyMMdd+5位数的workerId+7位数的id）
     private static String fromLocal() {
         org.antframework.common.util.id.Id id = ID_GENERATOR.getId();
         // 构建id
