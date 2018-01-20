@@ -14,7 +14,7 @@ import org.antframework.idcenter.client.IdAcquirer;
 import org.antframework.idcenter.client.IdContext;
 
 /**
- * 应用内id
+ * 应用内id生成器
  */
 public class IDS {
     // id上下文缓存
