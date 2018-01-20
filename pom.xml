@@ -15,5 +15,15 @@
     <description>分布式id生成工具</description>
 
     <dependencies>
+        <dependency>
+            <groupId>org.antframework.common</groupId>
+            <artifactId>ant-common-util</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.antframework.idcenter</groupId>
+            <artifactId>idcenter-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
