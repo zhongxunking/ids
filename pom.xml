@@ -20,10 +20,16 @@
             <artifactId>ant-common-util</artifactId>
             <version>1.0.0.RELEASE</version>
         </dependency>
+        <!--id中心客户端-->
         <dependency>
             <groupId>org.antframework.idcenter</groupId>
             <artifactId>idcenter-client</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--zookeeper-->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
         </dependency>
     </dependencies>
 </project>
