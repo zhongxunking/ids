@@ -30,10 +30,14 @@ public class IDS {
      *
      * @param idCode id编码
      * @return 新的id
+     * @throws IllegalStateException 如果获取id失败
      */
     public static long newId(String idCode) {
         IdAcquirer idAcquirer = CACHE.get(idCode).getAcquirer();
         Id id = idAcquirer.getId();
+        if (id == null) {
+            throw new IllegalStateException("从id中心获取id失败");
+        }
         return id.getId();
     }
 }

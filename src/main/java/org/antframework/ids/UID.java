@@ -52,7 +52,7 @@ public class UID {
      * @param id 字符串类型id
      * @return long类型id
      */
-    public static Long toLong(String id) {
+    public static long toLong(String id) {
         return Long.parseLong(id.substring(1));
     }
 

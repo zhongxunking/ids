@@ -53,6 +53,7 @@ public class IdsParams {
      * 获取workerId
      *
      * @param maxWorkerId 允许的最大workerId（不包含）
+     * @return workerId
      */
     static int getWorkId(int maxWorkerId) {
         String worker = IPUtils.getIPV4() + ":" + PropertyUtils.getRequiredProperty(APP_PORT_PROPERTY_NAME);
@@ -89,7 +90,9 @@ public class IdsParams {
     /**
      * 创建id生成器
      *
-     * @param idCode id编码
+     * @param idCode     id编码
+     * @param periodType 周期类型
+     * @param maxId      ID最大值（不包含）
      * @return id生成器
      */
     static IdGenerator createIdGenerator(String idCode, PeriodType periodType, Long maxId) {
