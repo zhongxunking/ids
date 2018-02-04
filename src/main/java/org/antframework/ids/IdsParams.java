@@ -56,12 +56,12 @@ public class IdsParams {
      * @return workerId
      */
     static int getWorkId(int maxWorkerId) {
-        String worker = IPUtils.getIPV4() + ":" + PropertyUtils.getRequiredProperty(APP_PORT_PROPERTY_NAME);
+        String worker = IPUtils.getIPV4() + ":" + PropertyUtils.getRequiredProperty(APP_PORT_PROPERTY_NAME) + ":" + getAppCode();
         String[] zkUrls = StringUtils.split(PropertyUtils.getRequiredProperty(ZK_URLS_PROPERTY_NAME), ',');
         if (ArrayUtils.isEmpty(zkUrls)) {
             throw new IllegalArgumentException("必须配置zookeeper地址：" + ZK_URLS_PROPERTY_NAME);
         }
-        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + "/workerId.properties";
+        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + "/" + getAppCode() + "-workerId.properties";
 
         int workerId = WorkerId.getId(worker, zkUrls, "/ids/workerId", filePath);
         if (workerId >= maxWorkerId) {
@@ -96,7 +96,7 @@ public class IdsParams {
      * @return id生成器
      */
     static IdGenerator createIdGenerator(String idCode, PeriodType periodType, Long maxId) {
-        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + "/" + idCode + "-idGenerator.properties";
+        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + "/" + getAppCode() + "-" + idCode + "-idGenerator.properties";
         return new IdGenerator(periodType, 1000, maxId, filePath);
     }
 }
