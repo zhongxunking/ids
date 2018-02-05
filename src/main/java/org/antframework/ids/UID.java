@@ -75,7 +75,7 @@ public class UID {
         // 构建id
         StringBuilder builder = new StringBuilder(ID_LENGTH);
         builder.append(id.getPeriod().toString());
-        builder.append(String.format("%0" + (ID_LENGTH - builder.length()) + "d", id.getId()));
+        finishId(builder, id.getId());
         return builder.toString();
     }
 
@@ -86,7 +86,17 @@ public class UID {
         StringBuilder builder = new StringBuilder(ID_LENGTH);
         builder.append(id.getPeriod().toString());
         builder.append(Integer.toString(25000 + WORKER_ID));
-        builder.append(String.format("%0" + (ID_LENGTH - builder.length()) + "d", id.getId()));
+        finishId(builder, id.getId());
         return builder.toString();
+    }
+
+    // 完成id
+    private static void finishId(StringBuilder builder, long id) {
+        String idStr = Long.toString(id);
+        int length = ID_LENGTH - builder.length() - idStr.length();
+        for (int i = 0; i < length; i++) {
+            builder.append('0');
+        }
+        builder.append(idStr);
     }
 }
