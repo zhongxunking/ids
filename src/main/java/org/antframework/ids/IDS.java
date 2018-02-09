@@ -40,7 +40,7 @@ public class IDS {
             throw new IllegalStateException("从id中心获取id失败");
         }
         if (id.getPeriod().getType() != PeriodType.NONE) {
-            throw new IllegalStateException("id周期类型必须是无");
+            throw new IllegalStateException(idCode + "的周期类型必须是无");
         }
         return id.getId();
     }
