@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.antframework</groupId>
         <artifactId>ant-parent</artifactId>
-        <version>1.0.0.RELEASE</version>
+        <version>1.1.0.RELEASE</version>
     </parent>
 
     <groupId>org.antframework.ids</groupId>
     <artifactId>ids</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1.0.RELEASE</version>
 
     <name>ids</name>
     <description>分布式id生成工具</description>
@@ -18,13 +18,13 @@
         <dependency>
             <groupId>org.antframework.common</groupId>
             <artifactId>ant-common-util</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>1.1.0.RELEASE</version>
         </dependency>
         <!--id中心客户端-->
         <dependency>
             <groupId>org.antframework.idcenter</groupId>
             <artifactId>idcenter-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.1.0.RELEASE</version>
         </dependency>
         <!--zookeeper-->
         <dependency>
