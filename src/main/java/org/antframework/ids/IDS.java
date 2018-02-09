@@ -12,6 +12,7 @@ import org.antframework.common.util.other.Cache;
 import org.antframework.idcenter.client.Id;
 import org.antframework.idcenter.client.IdAcquirer;
 import org.antframework.idcenter.client.IdContext;
+import org.antframework.idcenter.client.core.PeriodType;
 
 /**
  * 应用内id生成器
@@ -37,6 +38,9 @@ public class IDS {
         Id id = idAcquirer.getId();
         if (id == null) {
             throw new IllegalStateException("从id中心获取id失败");
+        }
+        if (id.getPeriod().getType() != PeriodType.NONE) {
+            throw new IllegalStateException("id周期类型必须是无");
         }
         return id.getId();
     }
