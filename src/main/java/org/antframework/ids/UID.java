@@ -21,10 +21,10 @@ public class UID {
     private static final int ID_LENGTH = 20;
     // id上下文
     private static final IdContext ID_CONTEXT = IdsParams.createIdContext("common-uid");
-    // workerId
-    private static final int WORKER_ID = IdsParams.getWorkId(75000);
     // id生成器
     private static final IdGenerator ID_GENERATOR = IdsParams.createIdGenerator("common-uid", PeriodType.DAY, 10000000L);
+    // workerId
+    private static Integer WORKER_ID = null;
 
     /**
      * 创建新的id
@@ -85,9 +85,21 @@ public class UID {
         // 构建id
         StringBuilder builder = new StringBuilder(ID_LENGTH);
         builder.append(id.getPeriod().toString());
-        builder.append(Integer.toString(25000 + WORKER_ID));
+        builder.append(Integer.toString(25000 + getWorkerId()));
         finishId(builder, id.getId());
         return builder.toString();
+    }
+
+    // 获取workerId
+    private static int getWorkerId() {
+        if (WORKER_ID == null) {
+            synchronized (UID.class) {
+                if (WORKER_ID == null) {
+                    WORKER_ID = IdsParams.getWorkId(75000);
+                }
+            }
+        }
+        return WORKER_ID;
     }
 
     // 完成id
