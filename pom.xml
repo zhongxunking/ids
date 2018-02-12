@@ -12,7 +12,7 @@
     <version>1.1.0.RELEASE</version>
 
     <name>ids</name>
-    <description>分布式id生成工具</description>
+    <description>分布式id生成器</description>
 
     <dependencies>
         <dependency>
