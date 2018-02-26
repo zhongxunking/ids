@@ -1,7 +1,7 @@
 # 分布式id生成器-ids
 
 1. 简介
-> 生成全局唯一的id（流水号），是很多公司都需要解决的问题。如果还是采用时间戳+随机数形式生成，在并发量大时，很有可能会生成重复的id。重复id的危害就是会导致一系列问题，比如幂等性。本id生成器专门用来高效的生成全局唯一id，tps可达到100万，而且服务端无压力。即使服务端和zookeeper都挂掉了，id生成依然可用。
+> 生成全局唯一的id（流水号），是很多公司都需要解决的问题。如果还是采用时间戳+随机数形式生成，在并发量大时，很有可能会生成重复的id。重复id的危害就是会导致一系列问题，比如幂等性。ids专门用来高效的生成全局唯一id，tps可达到100万，而且服务端无压力。即使服务端和zookeeper都挂掉了，id生成依然可用。
 
 2. 环境要求：
 > * jdk1.8
@@ -38,7 +38,7 @@ String id2 = UID.newId();
 ```
 
 ## 2. 整体设计
-> 本id生成器是结合开源项目[“idcenter”](https://github.com/zhongxunking/idcenter)和[“本地id生成”](https://github.com/zhongxunking/ant-common-util#7-本地id生成器)，进行组合出的适用于绝大多数公司的分布式id生成器，建议读者先阅读“idcenter”和“本地id生成”的文档。如果本id生成器不满足你的需求，你完全可以自己根据“idcenter”和“本地id生成”组装出适合自己的id生成器。
+> ids是结合开源项目[“idcenter”](https://github.com/zhongxunking/idcenter)和[“本地id生成”](https://github.com/zhongxunking/ant-common-util#7-本地id生成器)，进行组合出的适用于绝大多数公司的分布式id生成器，建议读者先阅读“idcenter”和“本地id生成”的文档。如果ids不满足你的需求，你完全可以自己根据“idcenter”和“本地id生成”组装出适合自己的分布式id生成器。
 
 ### 2.1 生成的id长度为20位：
 1. 从idcenter获取到的id：id前10位为生成id时间的yyyyMMddHH，后10位为从idcenter获取到的id。例如：20180214170000000001
