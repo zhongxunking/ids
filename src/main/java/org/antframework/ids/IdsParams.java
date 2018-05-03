@@ -10,65 +10,34 @@ package org.antframework.ids;
 
 import org.antframework.common.util.id.IdGenerator;
 import org.antframework.common.util.id.PeriodType;
-import org.antframework.common.util.other.IPUtils;
 import org.antframework.common.util.other.PropertyUtils;
 import org.antframework.common.util.zookeeper.WorkerId;
 import org.antframework.idcenter.client.IdContext;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+
 /**
  * ids参数
  */
 public class IdsParams {
     /**
-     * 应用编码属性名
-     */
-    public static final String APP_CODE_PROPERTY_NAME = "app.code";
-    /**
-     * 应用端口属性名
-     */
-    public static final String APP_PORT_PROPERTY_NAME = "app.port";
-    /**
      * id中心地址属性名
      */
     public static final String SERVER_URL_PROPERTY_NAME = "ids.server-url";
     /**
-     * zookeeper地址属性名
-     */
-    public static final String ZK_URLS_PROPERTY_NAME = "ids.zk-urls";
-    /**
      * ids的home文件路径属性名
      */
     public static final String HOME_PATH_PROPERTY_NAME = "ids.home-path";
-
     /**
-     * 获取应用编码
+     * worker编码属性名（每个应用实例的worker编码应该唯一）
      */
-    static String getAppCode() {
-        return PropertyUtils.getRequiredProperty(APP_CODE_PROPERTY_NAME);
-    }
-
+    public static final String WORKER_PROPERTY_NAME = "ids.worker";
     /**
-     * 获取workerId
-     *
-     * @param maxWorkerId 允许的最大workerId（不包含）
-     * @return workerId
+     * zookeeper地址属性名（存在多个zookeeper的话以“,”分隔（比如：192.168.0.1:2181,192.168.0.2:2181））
      */
-    static int getWorkId(int maxWorkerId) {
-        String worker = IPUtils.getIPV4() + ":" + PropertyUtils.getRequiredProperty(APP_PORT_PROPERTY_NAME) + ":" + getAppCode();
-        String[] zkUrls = StringUtils.split(PropertyUtils.getRequiredProperty(ZK_URLS_PROPERTY_NAME), ',');
-        if (ArrayUtils.isEmpty(zkUrls)) {
-            throw new IllegalArgumentException("必须配置zookeeper地址：" + ZK_URLS_PROPERTY_NAME);
-        }
-        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + "/" + getAppCode() + "-workerId.properties";
-
-        int workerId = WorkerId.getId(worker, zkUrls, "/ids/workerId", filePath);
-        if (workerId >= maxWorkerId) {
-            throw new IllegalStateException("worker数量超过最大值：" + maxWorkerId);
-        }
-        return workerId;
-    }
+    public static final String ZK_URLS_PROPERTY_NAME = "ids.zk-urls";
 
     /**
      * 创建id上下文
@@ -92,11 +61,32 @@ public class IdsParams {
      *
      * @param idCode     id编码
      * @param periodType 周期类型
-     * @param maxId      ID最大值（不包含）
+     * @param maxId      id最大值（不包含）
      * @return id生成器
      */
     static IdGenerator createIdGenerator(String idCode, PeriodType periodType, Long maxId) {
-        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + "/" + getAppCode() + "-" + idCode + "-idGenerator.properties";
+        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + File.separator + String.format("ids-idGenerator-%s.properties", idCode);
         return new IdGenerator(periodType, 1000, maxId, filePath);
+    }
+
+    /**
+     * 获取workerId
+     *
+     * @param maxWorkerId 允许的最大workerId（不包含）
+     * @return workerId
+     */
+    static int getWorkerId(int maxWorkerId) {
+        String worker = PropertyUtils.getRequiredProperty(WORKER_PROPERTY_NAME);
+        String[] zkUrls = StringUtils.split(PropertyUtils.getRequiredProperty(ZK_URLS_PROPERTY_NAME), ',');
+        if (ArrayUtils.isEmpty(zkUrls)) {
+            throw new IllegalArgumentException("必须配置zookeeper地址：" + ZK_URLS_PROPERTY_NAME);
+        }
+        String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + File.separator + "ids-workerId.properties";
+
+        int workerId = WorkerId.getId(worker, zkUrls, "/ids/workerId", filePath);
+        if (workerId >= maxWorkerId) {
+            throw new IllegalStateException("worker数量超过最大值：" + maxWorkerId);
+        }
+        return workerId;
     }
 }

@@ -40,11 +40,11 @@ public class UIDPerformanceTest {
 
     @Before
     public void init() {
-        System.setProperty(IdsParams.APP_CODE_PROPERTY_NAME, "ids-test");
-        System.setProperty(IdsParams.APP_PORT_PROPERTY_NAME, "8080");
         System.setProperty(IdsParams.SERVER_URL_PROPERTY_NAME, "http://localhost:6210");
-        System.setProperty(IdsParams.ZK_URLS_PROPERTY_NAME, "localhost:2181");
         System.setProperty(IdsParams.HOME_PATH_PROPERTY_NAME, System.getProperty("user.home") + "/ids");
+        System.setProperty(IdsParams.WORKER_PROPERTY_NAME, "127.0.0.1:8080");
+        System.setProperty(IdsParams.ZK_URLS_PROPERTY_NAME, "localhost:2181");
+
         UID.newId();
     }
 

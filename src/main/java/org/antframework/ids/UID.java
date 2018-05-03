@@ -95,7 +95,7 @@ public class UID {
         if (WORKER_ID == null) {
             synchronized (UID.class) {
                 if (WORKER_ID == null) {
-                    WORKER_ID = IdsParams.getWorkId(75000);
+                    WORKER_ID = IdsParams.getWorkerId(75000);
                 }
             }
         }
