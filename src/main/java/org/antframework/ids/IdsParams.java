@@ -23,6 +23,10 @@ import java.io.File;
  */
 public class IdsParams {
     /**
+     * 机房id属性名（如果不存在多机房情况，则不用填）
+     */
+    public static final String ROOM_ID_PROPERTY_NAME = "ids.room-id";
+    /**
      * id中心地址属性名
      */
     public static final String SERVER_URL_PROPERTY_NAME = "ids.server-url";
@@ -38,6 +42,13 @@ public class IdsParams {
      * zookeeper地址属性名（存在多个zookeeper的话以“,”分隔（比如：192.168.0.1:2181,192.168.0.2:2181））
      */
     public static final String ZK_URLS_PROPERTY_NAME = "ids.zk-urls";
+
+    /**
+     * 获取机房id
+     */
+    static String getRoomId() {
+        return PropertyUtils.getProperty(ROOM_ID_PROPERTY_NAME, "");
+    }
 
     /**
      * 创建id上下文
