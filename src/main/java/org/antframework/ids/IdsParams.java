@@ -82,11 +82,8 @@ public class IdsParams {
 
     /**
      * 获取workerId
-     *
-     * @param maxWorkerId 允许的最大workerId（不包含）
-     * @return workerId
      */
-    static int getWorkerId(int maxWorkerId) {
+    static int getWorkerId() {
         String worker = PropertyUtils.getRequiredProperty(WORKER_PROPERTY_NAME);
         String[] zkUrls = StringUtils.split(PropertyUtils.getRequiredProperty(ZK_URLS_PROPERTY_NAME), ',');
         if (ArrayUtils.isEmpty(zkUrls)) {
@@ -94,10 +91,6 @@ public class IdsParams {
         }
         String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + File.separator + "ids-workerId.properties";
 
-        int workerId = WorkerId.getId(worker, zkUrls, "/ids/workerId", filePath);
-        if (workerId >= maxWorkerId) {
-            throw new IllegalStateException("worker数量超过最大值：" + maxWorkerId);
-        }
-        return workerId;
+        return WorkerId.getId(worker, zkUrls, "/ids/workerId", filePath);
     }
 }

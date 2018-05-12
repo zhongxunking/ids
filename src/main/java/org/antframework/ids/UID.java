@@ -69,11 +69,18 @@ public class UID {
         if (IDC_ID_WORKER_ID == null) {
             synchronized (UID.class) {
                 if (IDC_ID_WORKER_ID == null) {
-                    int workerId = IdsParams.getWorkerId(75000);
-                    String temp = Integer.toString(25000 + workerId);
-                    IDC_ID_WORKER_ID = temp.substring(0, 2) + IDC_ID + temp.substring(2);
+                    int workerId = IdsParams.getWorkerId();
+                    if (workerId < 75000) {
+                        String temp = Integer.toString(25000 + workerId);
+                        IDC_ID_WORKER_ID = temp.substring(0, 2) + IDC_ID + temp.substring(2);
+                    } else {
+                        IDC_ID_WORKER_ID = "";
+                    }
                 }
             }
+        }
+        if (IDC_ID_WORKER_ID.length() == 0) {
+            throw new IllegalStateException("workerId必须小于75000");
         }
         return IDC_ID_WORKER_ID;
     }
