@@ -17,16 +17,16 @@ import org.antframework.idcenter.client.IdContext;
  * 唯一id（unique id）
  */
 public class UID {
-    // 机房id
-    private static final String ROOM_ID = IdsParams.getRoomId();
+    // 数据中心id
+    private static final String IDC_ID = IdsParams.getIdcId();
     // id长度
-    private static final int ID_LENGTH = ROOM_ID.length() + 20;
+    private static final int ID_LENGTH = 20 + IDC_ID.length();
     // id上下文
     private static final IdContext ID_CONTEXT = IdsParams.createIdContext("common-uid");
     // id生成器
     private static final IdGenerator ID_GENERATOR = IdsParams.createIdGenerator("common-uid", PeriodType.DAY, 10000000L);
-    // 机房id与workerId的组合
-    private static String ROOM_ID_WORKER_ID = null;
+    // 数据中心id与workerId的组合
+    private static String IDC_ID_WORKER_ID = null;
 
     /**
      * 创建新的id
@@ -39,7 +39,7 @@ public class UID {
         return id;
     }
 
-    // 从服务端获取id（格式：yyyyMMddHH+机房id+10位数的id）
+    // 从服务端获取id（格式：yyyyMMddHH+数据中心id+10位数的id）
     private static String fromServer() {
         Id id = ID_CONTEXT.getAcquirer().getId();
         if (id == null) {
@@ -48,34 +48,34 @@ public class UID {
         // 构建id
         StringBuilder builder = new StringBuilder(ID_LENGTH);
         builder.append(id.getPeriod().toString());
-        builder.append(ROOM_ID);
+        builder.append(IDC_ID);
         finishId(builder, id.getId());
         return builder.toString();
     }
 
-    // 从本地获取id（格式：yyyyMMdd+机房id和5位数的workerId的组合+7位数的id）
+    // 从本地获取id（格式：yyyyMMdd+数据中心id和5位数的workerId的组合+7位数的id）
     private static String fromLocal() {
         org.antframework.common.util.id.Id id = ID_GENERATOR.getId();
         // 构建id
         StringBuilder builder = new StringBuilder(ID_LENGTH);
         builder.append(id.getPeriod().toString());
-        builder.append(getRoomIdWorkerId());
+        builder.append(getIdcIdWorkerId());
         finishId(builder, id.getId());
         return builder.toString();
     }
 
-    // 获取机房id与workerId的组合
-    private static String getRoomIdWorkerId() {
-        if (ROOM_ID_WORKER_ID == null) {
+    // 获取数据中心id与workerId的组合
+    private static String getIdcIdWorkerId() {
+        if (IDC_ID_WORKER_ID == null) {
             synchronized (UID.class) {
-                if (ROOM_ID_WORKER_ID == null) {
+                if (IDC_ID_WORKER_ID == null) {
                     int workerId = IdsParams.getWorkerId(75000);
                     String temp = Integer.toString(25000 + workerId);
-                    ROOM_ID_WORKER_ID = temp.substring(0, 2) + ROOM_ID + temp.substring(2);
+                    IDC_ID_WORKER_ID = temp.substring(0, 2) + IDC_ID + temp.substring(2);
                 }
             }
         }
-        return ROOM_ID_WORKER_ID;
+        return IDC_ID_WORKER_ID;
     }
 
     // 完成id

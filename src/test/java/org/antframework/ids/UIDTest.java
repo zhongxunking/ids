@@ -20,7 +20,7 @@ public class UIDTest {
 
     @Before
     public void init() {
-        System.setProperty(IdsParams.ROOM_ID_PROPERTY_NAME, "01");
+        System.setProperty(IdsParams.IDC_ID_PROPERTY_NAME, "01");
         System.setProperty(IdsParams.SERVER_URL_PROPERTY_NAME, "http://localhost:6210");
         System.setProperty(IdsParams.HOME_PATH_PROPERTY_NAME, System.getProperty("user.home") + "/ids");
         System.setProperty(IdsParams.WORKER_PROPERTY_NAME, "127.0.0.1:8080");

@@ -23,9 +23,9 @@ import java.io.File;
  */
 public class IdsParams {
     /**
-     * 机房id属性名（如果不存在多机房情况，则不用填）
+     * 数据中心id属性名（如果不存在多数据中心，则不用填）
      */
-    public static final String ROOM_ID_PROPERTY_NAME = "ids.room-id";
+    public static final String IDC_ID_PROPERTY_NAME = "ids.idc-id";
     /**
      * id中心地址属性名
      */
@@ -44,10 +44,10 @@ public class IdsParams {
     public static final String ZK_URLS_PROPERTY_NAME = "ids.zk-urls";
 
     /**
-     * 获取机房id
+     * 获取数据中心id
      */
-    static String getRoomId() {
-        return PropertyUtils.getProperty(ROOM_ID_PROPERTY_NAME, "");
+    static String getIdcId() {
+        return PropertyUtils.getProperty(IDC_ID_PROPERTY_NAME, "");
     }
 
     /**
