@@ -21,7 +21,7 @@
 <dependency>
     <groupId>org.antframework.ids</groupId>
     <artifactId>ids</artifactId>
-    <version>1.1.0.RELEASE</version>
+    <version>1.2.0.RELEASE</version>
 </dependency>
 ```
 2. 系统启动阶段设置ids的参数：
