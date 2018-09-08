@@ -59,8 +59,8 @@ id编码：common-uid
 id最大值：10000000000（100亿）
 单次最大数量：1000000（100万）
 ```
-<img src="https://note.youdao.com/yws/api/personal/file/WEBbfaa8afe3aaeb4694a48356ff081748a?method=download&shareKey=afecc5ea5a633f72049535911cc40f66" width=400 />
-<img src="https://note.youdao.com/yws/api/personal/file/WEB57aeac85c2f65615483f563011c732b3?method=download&shareKey=b2565bf36898cd27145e97860812a760" width=400 />
+<img src="https://note.youdao.com/yws/api/personal/file/WEBbfaa8afe3aaeb4694a48356ff081748a?method=download&shareKey=afecc5ea5a633f72049535911cc40f66" width=700 />
+<img src="https://note.youdao.com/yws/api/personal/file/WEB57aeac85c2f65615483f563011c732b3?method=download&shareKey=b2565bf36898cd27145e97860812a760" width=700 />
 
 ### 2.2 部署zookeeper
 1. 如果你所在的公司有现有的zookeeper，则直接使用现有的zookeeper就行，ids只会操作“/ids/workerId”路径下的节点。
