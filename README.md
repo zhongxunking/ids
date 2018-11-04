@@ -3,7 +3,7 @@
 1. 简介
 > 生成全局唯一的id（流水号），是很多公司都需要解决的问题。如果还是采用时间戳+随机数形式生成，在并发量大时，很有可能会生成重复的id。重复id的危害就是会导致一系列问题，比如幂等性。
 
-> ids专门用来高效的生成全局唯一id，支持多数据中心，每个应用实例的tps可达到100万，而且服务端毫无压力。即使服务端和zookeeper都宕机了，id生成依然可用（ids弱依赖zookeeper）。
+> ids专门用来高效的生成全局唯一id，支持多数据中心，支持对id进行加密，每个应用实例的tps可达到100万，而且服务端毫无压力。即使服务端和zookeeper都宕机了，id生成依然可用（ids弱依赖zookeeper）。
 
 2. 环境要求：
 > * jdk1.8
@@ -87,10 +87,17 @@ System.setProperty(IdsParams.WORKER_PROPERTY_NAME, "192.168.0.1:8080");
 System.setProperty(IdsParams.ZK_URLS_PROPERTY_NAME, "localhost:2181");
 // 设置数据中心编码（如果不存在多数据中心这种情况，则不需要设置该参数）
 System.setProperty(IdsParams.IDC_ID_PROPERTY_NAME, "01");
+// 加密种子（如果不需要对id进行加密，则不用填）
+System.setProperty(IdsParams.ENCRYPTION_SEED, "123");
 ```
 3. 获取id
 ```java
 // 使用UID获取全局唯一id
+// 不使用加密情况：
 String id1 = UID.newId();  // 2018090812010000000001
 String id2 = UID.newId();  // 2018090812010000000002
+
+// 使用加密情况：
+String id1 = UID.newId();  // 2018090812015960159601
+String id2 = UID.newId();  // 2018090812018742387423
 ```
