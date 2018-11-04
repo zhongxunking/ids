@@ -72,7 +72,7 @@ id最大值：10000000000（100亿）
 <dependency>
     <groupId>org.antframework.ids</groupId>
     <artifactId>ids</artifactId>
-    <version>1.2.0.RELEASE</version>
+    <version>1.2.1.RELEASE</version>
 </dependency>
 ```
 2. 系统启动阶段设置ids的参数：
