@@ -8,6 +8,7 @@
  */
 package org.antframework.ids;
 
+import org.antframework.common.util.encryption.AdvancedCaesar;
 import org.antframework.common.util.id.IdGenerator;
 import org.antframework.common.util.id.PeriodType;
 import org.antframework.common.util.other.PropertyUtils;
@@ -42,6 +43,10 @@ public class IdsParams {
      * zookeeper地址属性名（存在多个zookeeper的话以“,”分隔（比如：192.168.0.1:2181,192.168.0.2:2181））
      */
     public static final String ZK_URLS_PROPERTY_NAME = "ids.zk-urls";
+    /**
+     * 加密种子（如果不需要对id进行加密，则不用填；否则填入整型数字，例如："123"）
+     */
+    public static final String ENCRYPTION_SEED = "ids.encryption-seed";
 
     /**
      * 获取数据中心id
@@ -92,5 +97,16 @@ public class IdsParams {
         String filePath = PropertyUtils.getRequiredProperty(HOME_PATH_PROPERTY_NAME) + File.separator + "ids-workerId.properties";
 
         return WorkerId.getId(worker, zkUrls, "/ids/workerId", filePath);
+    }
+
+    /**
+     * 获取加密器
+     */
+    static AdvancedCaesar getEncryptor() {
+        String seed = PropertyUtils.getProperty(ENCRYPTION_SEED);
+        if (StringUtils.isBlank(seed)) {
+            return null;
+        }
+        return new AdvancedCaesar("0123456789".toCharArray(), Long.parseLong(seed));
     }
 }

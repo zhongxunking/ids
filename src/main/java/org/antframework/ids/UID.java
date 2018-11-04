@@ -8,6 +8,7 @@
  */
 package org.antframework.ids;
 
+import org.antframework.common.util.encryption.AdvancedCaesar;
 import org.antframework.common.util.id.IdGenerator;
 import org.antframework.common.util.id.PeriodType;
 import org.antframework.idcenter.client.Id;
@@ -21,6 +22,8 @@ public class UID {
     private static final String IDC_ID = IdsParams.getIdcId();
     // id长度
     private static final int ID_LENGTH = 20 + IDC_ID.length();
+    // 加密器
+    private static final AdvancedCaesar ENCRYPTOR = IdsParams.getEncryptor();
     // id上下文
     private static final IdContext ID_CONTEXT = IdsParams.createIdContext("common-uid");
     // id生成器
@@ -89,8 +92,15 @@ public class UID {
     private static void finishId(StringBuilder builder, long id) {
         String idStr = Long.toString(id);
         int length = ID_LENGTH - builder.length() - idStr.length();
+        StringBuilder idBuilder = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            builder.append('0');
+            idBuilder.append('0');
+        }
+        idBuilder.append(idStr);
+        idStr = idBuilder.toString();
+        if (ENCRYPTOR != null) {
+            // 加密
+            idStr = ENCRYPTOR.encode(idStr);
         }
         builder.append(idStr);
     }
