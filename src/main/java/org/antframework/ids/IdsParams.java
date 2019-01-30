@@ -48,7 +48,7 @@ public class IdsParams {
      * 加密种子属性key（如果不需要对id进行加密，则不用填；否则填入整型数字，例如："123"）
      */
     public static final String ENCRYPTION_SEED_KEY = "ids.encryption-seed";
-
+    // id提供者上下文
     private static volatile IdersContext IDERS_CONTEXT;
 
     /**
