@@ -53,7 +53,7 @@ public class UID {
 
     // 从本地获取id（格式：yyyyMMdd+数据中心id和5位数的workerId的组合+7位数的id）
     private static String fromLocal() {
-        Id id = ID_GENERATOR.getId();
+        Id id = ID_GENERATOR.acquire();
         return formatId(id, IDC_ID_WORKER_ID);
     }
 
