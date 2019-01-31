@@ -18,16 +18,18 @@ import org.antframework.idcenter.client.Ider;
  * 唯一id（unique id）
  */
 public class UID {
+    // id编码
+    private static final String ID_CODE = "uid";
     // 数据中心id
     private static final String IDC_ID = IdsParams.getIdcId();
-    // 数据中心id与workerId的组合
+    // 数据中心id与5位数的workerId的组合
     private static String IDC_ID_WORKER_ID = getIdcIdWorkerId();
     // id长度
     private static final int ID_LENGTH = 20 + IDC_ID.length();
     // id提供者
-    private static final Ider IDER = IdsParams.getIder("common-uid");
+    private static final Ider IDER = IdsParams.getIder(ID_CODE);
     // id生成器
-    private static final IdGenerator ID_GENERATOR = IdsParams.createIdGenerator("common-uid", PeriodType.DAY, 10000000L);
+    private static final IdGenerator ID_GENERATOR = IdsParams.createIdGenerator(ID_CODE, PeriodType.DAY, 10000000L);
     // 加密器
     private static final AdvancedCaesar ENCRYPTOR = IdsParams.getEncryptor();
 
@@ -57,15 +59,15 @@ public class UID {
         return formatId(id, IDC_ID_WORKER_ID);
     }
 
-    // 对id进行格式化
+    // 格式化id
     private static String formatId(Id id, String addition) {
         StringBuilder builder = new StringBuilder(ID_LENGTH);
         builder.append(id.getPeriod());
         builder.append(addition);
         // 计算格式化后的id值（包括加密）
         String idStr = Long.toString(id.getId());
+        StringBuilder idBuilder = new StringBuilder(ID_LENGTH - builder.length());
         int zeroLength = ID_LENGTH - builder.length() - idStr.length();
-        StringBuilder idBuilder = new StringBuilder(zeroLength);
         for (int i = 0; i < zeroLength; i++) {
             idBuilder.append('0');
         }
@@ -83,7 +85,7 @@ public class UID {
 
     // 获取数据中心id与workerId的组合
     private static String getIdcIdWorkerId() {
-        int workerId = IdsParams.getWorkerId();
+        int workerId = IdsParams.getWorkerId(ID_CODE);
         if (workerId >= 75000) {
             throw new IllegalStateException("workerId必须小于75000");
         }
