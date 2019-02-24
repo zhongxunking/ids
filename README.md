@@ -54,20 +54,21 @@ id结构详解（多数据中心情况）:<br/>
 1. 按照[“idcenter”](https://github.com/zhongxunking/idcenter#2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%83%A8%E7%BD%B2)的文档部署服务端。
 2. 通过idcenter的[后台管理页面](https://github.com/zhongxunking/idcenter#4-id%E7%AE%A1%E7%90%86%E4%BB%8B%E7%BB%8D)添加一个id提供者：
 ```
-id编码：common-uid
+id编码：uid
+名称：全局唯一id
 周期类型：每小时
 id最大值：10000000000（100亿）
 单次最大数量：1000000（100万）
 ```
-<img src="https://note.youdao.com/yws/api/personal/file/WEBbfaa8afe3aaeb4694a48356ff081748a?method=download&shareKey=afecc5ea5a633f72049535911cc40f66" width=700 />
-<img src="https://note.youdao.com/yws/api/personal/file/WEB57aeac85c2f65615483f563011c732b3?method=download&shareKey=b2565bf36898cd27145e97860812a760" width=700 />
+<img src="https://note.youdao.com/yws/api/personal/file/WEB9ef67268db4219b2ef75b89b6a48b1e7?method=download&shareKey=eccf4d8860b9db9d2baa48428da81e1c" width=700 />
+<img src="https://note.youdao.com/yws/api/personal/file/WEB58ebd47274c8ab99e15529bcf305bc54?method=download&shareKey=0017bcf71e43be97b225984daba21d24" width=700 />
 
 ### 2.2 部署zookeeper
-1. 如果你所在的公司有现有的zookeeper，则直接使用现有的zookeeper就行，ids只会操作“/ids/workerId”路径下的节点。
+1. 如果你所在的公司有现有的zookeeper，则直接使用现有的zookeeper就行，ids只会操作“/ids”路径下的节点。
 2. 如果你所在的公司没有部署zookeeper，则需要部署zookeeper。对于怎么部署zookeeper，网上有很多介绍，在此就不论述了。
 
 ## 3. 使用ids
-1. 引入ids依赖：
+### 3.1 引入ids依赖：
 ```xml
 <dependency>
     <groupId>org.antframework.ids</groupId>
@@ -75,22 +76,25 @@ id最大值：10000000000（100亿）
     <version>1.2.1.RELEASE</version>
 </dependency>
 ```
-2. 系统启动阶段设置ids的参数：
+
+### 3.2 系统启动阶段设置ids的参数：
 ```java
-// 设置idcenter服务端地址
-System.setProperty(IdsParams.SERVER_URL_PROPERTY_NAME, "http://localhost:6210");
-// 设置缓存文件夹路径
-System.setProperty(IdsParams.HOME_PATH_PROPERTY_NAME, "/var/ids");
-// 设置应用实例的编码（每个实例必须唯一），比如可以使用ip+端口
-System.setProperty(IdsParams.WORKER_PROPERTY_NAME, "192.168.0.1:8080");
-// 设置zookeeper地址，存在多个则以“,”分隔（比如：192.168.0.1:2181,192.168.0.2:2181）
-System.setProperty(IdsParams.ZK_URLS_PROPERTY_NAME, "localhost:2181");
-// 设置数据中心编码（如果不存在多数据中心这种情况，则不需要设置该参数）
-System.setProperty(IdsParams.IDC_ID_PROPERTY_NAME, "01");
-// 加密种子（如果不需要对id进行加密，则不用填）
-System.setProperty(IdsParams.ENCRYPTION_SEED, "123");
+// 必填：idcenter服务端地址
+System.setProperty(IdsParams.IDCENTER_URL_KEY, "http://localhost:6210");
+// 必填：缓存文件夹路径
+System.setProperty(IdsParams.HOME_PATH_KEY, "/var/apps/ids");
+// 必填：应用实例的编码（每个实例必须唯一），比如可以使用ip+端口
+System.setProperty(IdsParams.WORKER_KEY, "192.168.0.1:8080");
+// 必填：zookeeper地址，存在多个则以“,”分隔（比如：192.168.0.1:2181,192.168.0.2:2181）
+System.setProperty(IdsParams.ZK_URLS_KEY, "localhost:2181");
+
+// 选填：数据中心编码（如果不存在多数据中心这种情况，则不用填）
+System.setProperty(IdsParams.IDC_ID_KEY, "01");
+// 选填：加密种子（如果不需要对id进行加密，则不用填）
+System.setProperty(IdsParams.ENCRYPTION_SEED_KEY, "123");
 ```
-3. 获取id
+
+### 3.3 获取id
 ```java
 // 使用UID获取全局唯一id
 // 不使用加密情况：
